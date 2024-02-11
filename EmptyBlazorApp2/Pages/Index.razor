@@ -1,0 +1,45 @@
+﻿@page "/"
+@inject IPersonService service;
+<NavLink class="nav-link" href="add">
+	Add
+</NavLink>
+<button @onclick="loadData">Refresh</button>
+
+<table class="table table-resonsive">
+	<tr>
+		<td>Id</td>
+		<td>Name</td>
+	</tr>
+
+
+	@for (int i=0; i<data.Count; i++)
+	{
+		<tr>
+			<td>@data[i].Id</td>
+			<td>@data[i].PersonName</td>
+			<td>
+				<a class="nav-link" href="/edit/@data[i].Id">Edit</a>
+			</td>
+			<td>
+				<a class="nav-link" href="/delete/@data[i].Id">Delete</a>
+			</td>
+		</tr>
+		
+	}
+
+</table>
+
+@code{
+	List<Person> data= new List<Person>();
+
+
+	protected override void OnInitialized()
+	{
+			loadData();
+			base.OnInitialized();
+	}
+
+	void loadData(){
+		data = service.GetPerson();
+	}
+}
